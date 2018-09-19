@@ -29,9 +29,18 @@
 		</preConditions>
 		<createTable tableName="questions">
 			<column name="question_id" type="INT">
-				<constraints nullable="false" primaryKey="true"/>
+				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="question" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="site_id" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="max_num_predictions" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="min_num_predictions" type="INT">
 				<constraints nullable="false" />
 			</column>
 			<column name="is_deleted" type="tinyint(1)">
@@ -48,12 +57,13 @@
 	<changeSet id="init_question_predictions" author="wilsonif">
 		<preConditions onFail="CONTINUE">
 			<not>
-				<tableExists schemaName="demo" tableName="question_predictions"></tableExists>
+				<tableExists schemaName="demo"
+					tableName="question_predictions"></tableExists>
 			</not>
 		</preConditions>
 		<createTable tableName="question_predictions">
 			<column name="question_prediction_id" type="INT">
-				<constraints nullable="false" primaryKey="true"/>
+				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="question_id" type="INT">
 				<constraints nullable="false" />
@@ -67,6 +77,9 @@
 			</column>
 			<column name="row_order" type="INT">
 			</column>
+			<column name="is_answer" type="tinyint(1)">
+				<constraints nullable="false" />
+			</column>
 			<column name="is_deleted" type="tinyint(1)">
 				<constraints nullable="false" />
 			</column>
@@ -77,6 +90,9 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<addDefaultValue columnDataType="INT"
+			columnName="is_answer" defaultValueNumeric="0" schemaName="demo"
+			tableName="question_predictions" />
 	</changeSet>
 	<changeSet id="init_question_view" author="wilsonif">
 		<preConditions onFail="CONTINUE">
@@ -86,7 +102,7 @@
 		</preConditions>
 		<createTable tableName="view_question">
 			<column name="question_view_uuid" type="BINARY(16)">
-				<constraints nullable="false" primaryKey="true"/>
+				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="user_uuid" type="BINARY(16)">
 			</column>
@@ -107,21 +123,44 @@
 			</column>
 		</createTable>
 	</changeSet>
-	<changeSet id="init_question_view_prediction" author="wilsonif">
+	<changeSet id="init_question_view_response"
+		author="wilsonif">
 		<preConditions onFail="CONTINUE">
 			<not>
-				<tableExists schemaName="demo" tableName="view_question_prediction"></tableExists>
+				<tableExists schemaName="demo"
+					tableName="view_question_response"></tableExists>
 			</not>
 		</preConditions>
-		<createTable tableName="view_question_prediction">
-			<column name="question_view_prediction_uuid" type="BINARY(16)">
-				<constraints nullable="false" primaryKey="true"/>
+		<createTable tableName="view_question_response">
+			<column name="question_view_response_uuid" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="question_view_uuid" type="BINARY(16)">
-				<constraints nullable="false"/>
+				<constraints nullable="false" />
 			</column>
 			<column name="question_prediction_id" type="INT">
-				<constraints nullable="false"/>
+				<constraints nullable="false" />
+			</column>
+			<column name="created_at" type="java.sql.Types.TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+			<column name="updated_at" type="java.sql.Types.TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet id="sites_table" author="wilsonif">
+		<preConditions onFail="CONTINUE">
+			<not>
+				<tableExists schemaName="demo" tableName="sites"></tableExists>
+			</not>
+		</preConditions>
+		<createTable tableName="sites">
+			<column name="site_id" type="INT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="site_uuid" type="BINARY(16)">
+				<constraints nullable="false" />
 			</column>
 			<column name="created_at" type="java.sql.Types.TIMESTAMP">
 				<constraints nullable="false" />

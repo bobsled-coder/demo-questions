@@ -20,33 +20,25 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
-@Table(name = "view_question")
+@Table(name = "view_question_response")
 @EntityListeners(AuditingEntityListener.class)
-public class ViewQuestion {
+public class ViewQuestionResponse {
 
 	@Id
 	@GeneratedValue(generator = "uuid2")
 	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(columnDefinition = "BINARY(16)", name = "question_view_uuid")
-	private UUID questionViewUUID;
+	@Column(columnDefinition = "BINARY(16)", name = "question_view_response_uuid")
+	private UUID questionViewResponseUUID;
 	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="question_id",referencedColumnName="question_id")
-	private Question question;
-
+	@JoinColumn(name="question_view_uuid",referencedColumnName="question_view_uuid")
+	private ViewQuestion questionView;
+	
 	@ManyToOne(optional=false, fetch = FetchType.EAGER)
-	@JoinColumn(name="site_uuid",referencedColumnName="site_uuid")
-	private Site site;
-
-	@Column(nullable = false, name="embed_uuid")
-	private UUID embedUUID;
-
-	@Column(nullable = false, name="user_uuid")
-	private UUID userUUID;
-
+	@JoinColumn(name="question_prediction_id",referencedColumnName="question_prediction_id")
+	private QuestionPrediction questionPrediction;
+	
 	@Column(nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
@@ -57,50 +49,30 @@ public class ViewQuestion {
 	@LastModifiedDate
 	private Date updatedAt;
 
-	public Question getQuestion() {
-		return question;
+	public ViewQuestion getQuestionView() {
+		return questionView;
 	}
 
-	public void setQuestion(Question question) {
-		this.question = question;
+	public void setQuestionView(ViewQuestion questionView) {
+		this.questionView = questionView;
 	}
 
-
-	public Site getSite() {
-		return site;
+	public QuestionPrediction getQuestionPrediction() {
+		return questionPrediction;
 	}
 
-	public void setSite(Site site) {
-		this.site = site;
+	public void setQuestionPrediction(QuestionPrediction questionPrediction) {
+		this.questionPrediction = questionPrediction;
 	}
 
-	public UUID getUserUUID() {
-		return userUUID;
+	public UUID getQuestionViewResponseUUID() {
+		return questionViewResponseUUID;
 	}
 
-	public void setUserUUID(UUID userUUID) {
-		this.userUUID = userUUID;
-	}
-
-	public UUID getEmbedUUID() {
-		return embedUUID;
-	}
-
-	public void setEmbedUUID(UUID embedUUID) {
-		this.embedUUID = embedUUID;
-	}
-
-
-	public UUID getQuestionViewUUID() {
-		return questionViewUUID;
-	}
-
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}

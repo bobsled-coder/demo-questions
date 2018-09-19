@@ -32,7 +32,7 @@ public class QuestionPrediction  implements Serializable {
 	@TableGenerator(name = "questionPredictionGen", table = "sequenceGen", pkColumnName = "KeyGen", valueColumnName = "ValueGen", pkColumnValue = "questionPredictionId", initialValue = 1000000, allocationSize = 1)
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "questionPredictionGen")
-	@Column(name = "questionPredictionId")
+	@Column(name = "question_prediction_id")
 	private Long questionPredictionId;
 	
 	@Column(name = "question_id")
@@ -44,6 +44,9 @@ public class QuestionPrediction  implements Serializable {
 	private String rowName;
 	private Long columnOrder;
 	private Long rowOrder;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT(1)")
+	private boolean isAnswer;
 	
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	private boolean isDeleted;
@@ -105,6 +108,15 @@ public class QuestionPrediction  implements Serializable {
 	public void setRowOrder(Long rowOrder) {
 		this.rowOrder = rowOrder;
 	}
+	
+	public boolean isAnswer() {
+		return isAnswer;
+	}
+
+	public void setAnswer(boolean isAnswer) {
+		this.isAnswer = isAnswer;
+	}
+	
 	@JsonIgnore
 	public boolean isDeleted() {
 		return isDeleted;

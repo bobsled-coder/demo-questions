@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.dto.QuestionDTO;
 import com.demo.model.Question;
 import com.demo.repository.QuestionRepository;
 
