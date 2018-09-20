@@ -1,6 +1,11 @@
 # Description #
 Build a Service that is horizontally scalable leveraging Spring Boot, Liquibase, JPA and MySQL
 
+# Requirements #
+Java 1.8+
+MySQL 8.0
+Maven
+
 # Scaling #
 This service should be able to handle many views.  To make this scale the JPA cache will have to be disabled so that request coming in update from the database.  Otherwise.  This will have to be placed behind a load balancer and it should just work.  Users are stored with each View, so the same user could make multiple requests to different services, with no need for coordination.  UUID's are generated on view insert to allow for the scaling of the service, and the independence from other services. 
 
