@@ -1,5 +1,6 @@
 package com.demo.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,7 +26,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "view_question")
 @EntityListeners(AuditingEntityListener.class)
-public class ViewQuestion {
+public class ViewQuestion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(generator = "uuid2")

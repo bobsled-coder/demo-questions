@@ -23,10 +23,6 @@ public class EmbedQuestionViewDetailsDTO {
 		return viewUUID;
 	}
 
-	public void setViewUUID(UUID viewUUID) {
-		this.viewUUID = viewUUID;
-	}
-
 	public SortedSet<Header> getHeaders() {
 		return headers;
 	}
@@ -48,6 +44,8 @@ public class EmbedQuestionViewDetailsDTO {
 	}
 
 	public void setViewQuestion(ViewQuestion viewQuestion) {
+		viewUUID = viewQuestion.getQuestionViewUUID();
+		
 		for (QuestionPrediction prediction : viewQuestion.getQuestion().getPredictions()) {
 			if (prediction != null && prediction.getColumnName() != null) {
 				headers.add(new Header(prediction.getColumnName(), prediction.getColumnOrder()));

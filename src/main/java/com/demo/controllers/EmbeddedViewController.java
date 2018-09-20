@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,8 @@ import com.demo.repository.SiteRepository;
 @RequestMapping("/embedview")
 public class EmbeddedViewController {
 
+	Logger logger = LoggerFactory.getLogger(EmbeddedViewController.class);
+	
 	@Autowired
 	EmbedViewRepository embeddedViewRepository;
 	
@@ -89,14 +93,13 @@ public class EmbeddedViewController {
 		// returned, and format for easy processing)
 		// This allows us to hide away some of the complexity of the DB.
 		EmbedQuestionViewDetailsDTO details = new EmbedQuestionViewDetailsDTO();
-		details.setViewUUID(UUID.randomUUID());
 		details.setViewQuestion(question);
 
 		return new ResponseEntity<EmbedQuestionViewDetailsDTO>(details, HttpStatus.OK);
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/{viewId}/result/")
+	@RequestMapping(method = RequestMethod.POST, value = "/{viewId}")
 	@ResponseBody
 	public ResponseEntity<EmbedQuestionViewResultDTO> createViewResult(@Valid @RequestBody EmbedQuestionViewAnswerDTO answer, @PathVariable(value = "viewId") UUID questionId) {
 		
@@ -107,7 +110,8 @@ public class EmbeddedViewController {
 		}
 		
 		// validate number of responses fit in min and max of question
-		if (!(answer.getAnswers().size() > vQuestion.getQuestion().getMinNumPredictions() && answer.getAnswers().size() < vQuestion.getQuestion().getMaxNumPredictions())) {
+		logger.debug("# Answers:{}. MinPredictions:{}, MaxPredictions:{}", answer.getAnswers().size(),  vQuestion.getQuestion().getMinNumPredictions(), vQuestion.getQuestion().getMaxNumPredictions() );
+		if (!(answer.getAnswers().size() >= vQuestion.getQuestion().getMinNumPredictions() && answer.getAnswers().size() <= vQuestion.getQuestion().getMaxNumPredictions())) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		

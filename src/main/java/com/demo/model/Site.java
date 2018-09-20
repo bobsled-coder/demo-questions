@@ -1,5 +1,6 @@
 package com.demo.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,7 +22,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name = "Sites")
 @EntityListeners(AuditingEntityListener.class)
-public class Site {
+public class Site implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@TableGenerator(name = "siteGen", table = "sequenceGen", pkColumnName = "KeyGen", valueColumnName = "ValueGen", pkColumnValue = "siteId", initialValue = 1000000, allocationSize = 1)
 	@Id

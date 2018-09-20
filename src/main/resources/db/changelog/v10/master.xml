@@ -132,7 +132,7 @@
 			</not>
 		</preConditions>
 		<createTable tableName="view_question_response">
-			<column name="question_view_response_uuid" type="BIGINT">
+			<column name="question_view_response_uuid" type="BINARY(16)">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="question_view_uuid" type="BINARY(16)">
